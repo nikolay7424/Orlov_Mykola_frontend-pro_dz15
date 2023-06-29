@@ -1,4 +1,4 @@
-function outer() {
+function outer(callback) {
   const cache = {};
   // keys arr for deleting
   const keys = [];
@@ -11,19 +11,24 @@ function outer() {
       delete cache[keys[0]];
       keys.splice(0,1);
 
-      cache[number] = `+38${number}`;
+
+      cache[number] = callback(number);
       keys.push(number);
       return cache[number];
     } else {
       // adding number to cache and to keys arr
-      cache[number] = `+38${number}`;
+      cache[number] = callback(number);
       keys.push(number);
       return cache[number];
     }
   }
 }
 
-const call = outer();
+const callback = (number) => {
+  return `+38${number}`;
+}
+
+const call = outer(callback);
 
 console.log(call('0670000001'));
 console.log(call('0670000002'));
